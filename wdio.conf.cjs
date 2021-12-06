@@ -3,7 +3,7 @@ exports.config = {
     // ====================
     // Runner Configuration
     // ====================
-    //
+    //runner: 'local',
     //
     // ==================
     // Specify Test Files
@@ -22,6 +22,7 @@ exports.config = {
     //
     specs: [
         './test/specs/**/*.js'
+
     ],
     // Patterns to exclude.
     exclude: [
@@ -54,19 +55,18 @@ exports.config = {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
+
         maxInstances: 1,
         browserName: 'chrome',
-        acceptInsecureCerts: true
+        acceptInsecureCerts: true,
+
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
-    },
-    {
-        maxInstances: 1,
-        browserName: 'firefox',
-        acceptInsecureCerts: true
     }],
+    
+
     //
     // ===================
     // Test Configurations
@@ -98,7 +98,7 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'https://the-internet.herokuapp.com',
+    baseUrl: 'http://localhost:3000/#',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -114,7 +114,7 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver', 'firefox-profile'],
+    services: ['chromedriver'],
     
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -139,7 +139,6 @@ exports.config = {
     reporters: ['spec'],
 
 
-    
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
@@ -190,8 +189,10 @@ exports.config = {
      * @param {Array.<String>} specs        List of spec file paths that are to be run
      * @param {Object}         browser      instance of created browser/device session
      */
-    // before: function (capabilities, specs) {
-    // },
+    before: function (capabilities, specs) {
+        browser.setWindowSize(1366, 768);
+        console.error(`Testing is started... (${capabilities.browserName})`);
+    },
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {String} commandName hook command name
@@ -257,8 +258,9 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    // after: function (result, capabilities, specs) {
-    // },
+    after: function (result, capabilities, specs) {
+        console.error(`Testing is done! (${capabilities.browserName})`);
+    },
 
     /**
      * Gets executed right after terminating the webdriver session.

@@ -5,7 +5,7 @@ describe('Test for the opening social media', () => {
     it('try to open twitter page', async () => {
 
         //Main Page
-        mainPage.open();
+        mainPage.open('/');
         mainPage.showSideMenu();
 
         // //About Page

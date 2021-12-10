@@ -1,20 +1,19 @@
 import BasePage from '../base/base.page.js';
+import ButtonElement from '../elements/button.element.js';
 
 class AboutUsPage extends BasePage {
 
     get twitterBtn() {
-        return $('div > a:nth-child(2) > button');
+        return new ButtonElement($('//*[@class="mat-button-wrapper"][contains(text(), "Twitter")]'), 'Go Twitter');
     }
     get twitterUrl() {
         return 'https://twitter.com/owasp_juiceshop';
     }
     get twitterMarker() {
-        //return $('a[href="https://twitter.com/privacy"]');
         return $('a[data-testid="signup"]');
-        
     }
     get facebookBtn() {
-        return $('div > a:nth-child(3) > button');
+        return new ButtonElement($('//*[@class="mat-button-wrapper"][contains(text(), "Facebook")]'), 'Go Facebook');
     }
     get facebookUrl() {
         return 'https://www.facebook.com/owasp.juiceshop';
@@ -23,25 +22,50 @@ class AboutUsPage extends BasePage {
         return $('.fb_logo');
     }
     get slackBtn() {
-        return $('div > a:nth-child(4) > button');
+        return new ButtonElement($('//*[@class="mat-button-wrapper"][contains(text(), "Slack")]'), 'Go Slack');
+    }
+    get slackUrl() {
+        return 'https://owasp.org/slack/invite';
+    }
+    get slackMarker() {
+        return $('img[alt="OWASP logo"]');
     }
     get redditBtn(){
-        return $('div > a:nth-child(5) > button');
+        return new ButtonElement($('//*[@class="mat-button-wrapper"][contains(text(), "Reddit")]'), 'Go Reddit');
+    }
+    get redditUrl() {
+        return 'https://www.reddit.com/r/owasp_juiceshop/';
+    }
+    get redditMarker() {
+        return $('input[id="header-search-bar"]');
     }
     get pressKitBtn(){
-        return $('div > a:nth-child(6) > button');
+        return new ButtonElement($('//*[@class="mat-button-wrapper"][contains(text(), "Press Kit")]'), 'Go PressKit');
+    }
+    get pressKitUrl() {
+        return 'https://github.com/OWASP/owasp-swag/tree/master/projects/juice-shop';
+    }
+    get pressKitMarker() {
+        return $('.commit-author.user-mention');
     }
     async open() {
         await super.open('/about');
     }
 
     async goTwitter() {
-        await this.twitterBtn.scrollIntoView();
         await this.twitterBtn.click();
     }
     async goFacebook() {
-        await this.twitterBtn.scrollIntoView();
         await this.facebookBtn.click();
+    }
+    async goSlack() {
+        await this.slackBtn.click();
+    }
+    async goReddit() {
+        await this.redditBtn.click();
+    }
+    async goPressKit() {
+        await this.pressKitBtn.click();
     }
 }
 

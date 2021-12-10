@@ -1,36 +1,41 @@
 import BasePage from '../base/base.page.js';
+import ButtonElement from '../elements/button.element.js';
 
 class MainPage extends BasePage {
 
+    async getBaseElement() {
+        return new ButtonElement($('#navbarLoginButton'), 'MainPageBase');
+    }
+
     get accountMenuBtn() {
-        return $('#navbarAccount');
+        return new ButtonElement($('#navbarAccount'), 'Navbar Account Menu');
     }
     get loginBtn() {
-        return $('#navbarLoginButton');
+        return new ButtonElement($('#navbarLoginButton'), 'Login Button');
     }
     get closePopupBtn() {
-        return $('button.close-dialog');
+        return new ButtonElement($('button.close-dialog'), 'Button Close Popup Dialog');
     }
-    get closeCookieBtn() {
-        return $('a[aria-label="dismiss cookie message"]');
+    get allowCookiesBtn() {
+        return new ButtonElement($('a[aria-label="dismiss cookie message"]'), 'Button Allow Cookies');
     }
     get logoutBtn() {
-        return $('#navbarLogoutButton');
+        return new ButtonElement($('#navbarLogoutButton'), 'Logout');
     }
     get basketBtn() {
-        return $('button[routerlink="/basket"]');
+        return new ButtonElement($('button[routerlink="/basket"]'), 'Your Basket');
     }
     get sideMenuBtn() {
-        return $('button[aria-label="Open Sidenav"]');
+        return new ButtonElement($('button[aria-label="Open Sidenav"]'), 'Side Menu');
     }
     get aboutUsBtn() {
-        return $('div a[routerlink="/about"]');
+        return new ButtonElement($('div a[routerlink="/about"]'), 'About Us!');
     }
 
     async open() {
         await super.open('/');
-        await this.closePopupBtn.click();
-        await this.closeCookieBtn.click();
+        if (await this.closePopupBtn.isExisting()) await this.closePopupBtn.click();
+        if (await this.allowCookiesBtn.isExisting()) await this.allowCookiesBtn.click();
     }
     async openAccountMenu() {
         await this.accountMenuBtn.click();
@@ -42,11 +47,6 @@ class MainPage extends BasePage {
     async showSideMenu() {
         await this.sideMenuBtn.click();
         await this.aboutUsBtn.click();
-    }
-    async checkLoginStatus() {
-        if(this.basketBtn.toBeExisting()){
-            return await this.basketBtn;
-        }
     }
 
 }

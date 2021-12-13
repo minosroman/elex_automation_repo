@@ -5,9 +5,9 @@ import ButtonElement from '../elements/button.element.js';
 class LoginPage extends BasePage {
 
     async getBaseElement() {
-        return new ButtonElement($('button#loginButton'), 'LoginPageBase');
+        //return new ButtonElement($('button#loginButton'), 'LoginPageBase');
+        return new ButtonElement($('//*[contains(text(), "Registration completed successfully. You can now log in.")]'), 'LoginPageBase');
     }
-
     get email() {
         return new InputElement($('#email'));
     }
@@ -26,14 +26,17 @@ class LoginPage extends BasePage {
     get rgstrStatusOk() {
         return $('//*[contains(text(), "Registration completed successfully. You can now log in.")]');
     }
-
     async open() {
+        await allure.addStep('Open Login Page');
         await super.open('/login');
+        await allure.endStep('passed');
     }
     async login(email, pass) {
+        await allure.addStep(`Logging with email: ${await email}, password: ${await pass}`);
         await this.email.setValue(email);
         await this.password.setValue(pass);
         await this.btnLogin.click();
+        await allure.endStep('passed');
     }
 }
 

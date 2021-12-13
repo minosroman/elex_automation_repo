@@ -6,9 +6,8 @@ import DropdownElement from '../elements/dropdown.element.js';
 class RegisterPage extends BasePage {
 
     async getBaseElement() {
-        return new ButtonElement($('#button#registerButton'), 'RegisterButtonBase');
+        return new ButtonElement($('#button#registerButton'), 'RegisterPageBase');
     }
-
     get email() {
         return new InputElement($('#emailControl'));
     }
@@ -30,20 +29,23 @@ class RegisterPage extends BasePage {
     get errorLoginMsg() {
         return $('div.error.ng-star-inserted');
     }
-
-    async open() {
-        await super.open('/register');
+    get rgstrStatusOk() {
+        return $('//*[contains(text(), "Registration completed successfully. You can now log in.")]');
     }
-    // async selectDropdown(text) {
-    //     await this.dropdown.select(text);
-    // }
+    async open() {
+        await allure.addStep('Open Register Page');
+        await super.open('/register');
+        await allure.endStep('passed');
+    }
     async registerForm(email, pass, rePass, dropdown, answer) {
+        await allure.addStep('Fill register fields and click Register Button');
         await this.email.setValue(email);
         await this.password.setValue(pass);
         await this.repeatPassword.setValue(rePass);
         await this.dropdown.select(dropdown);
         await this.answer.setValue(answer);
         await this.btnRegister.click();
+        await allure.endStep('passed');
     }
 }
 

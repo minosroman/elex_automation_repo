@@ -5,19 +5,26 @@
     "author": "",
     "license": "ISC",
     "type": "module",
-    "dependencies": {},
+    "dependencies": {
+        "randomstring": "^1.2.1"
+    },
     "devDependencies": {
+        "@wdio/allure-reporter": "^7.16.11",
         "@wdio/cli": "^7.16.10",
         "@wdio/firefox-profile-service": "^7.16.6",
         "@wdio/local-runner": "^7.16.10",
         "@wdio/mocha-framework": "^7.16.6",
         "@wdio/selenium-standalone-service": "^7.16.6",
         "@wdio/spec-reporter": "^7.16.9",
+        "allure-commandline": "^2.13.8",
         "chromedriver": "^96.0.0",
         "wdio-chromedriver-service": "^7.2.2",
         "webdriverio": "^7.16.10"
     },
     "scripts": {
-        "wdio-run": "./node_modules/.bin/wdio run wdio.conf.cjs"
+        "wdio-run": "./node_modules/.bin/wdio run wdio.conf.cjs",
+        "allure-gen": "./node_modules/.bin/allure.cmd generate allure-results -o allure-report --clean",
+        "allure-open": "./node_modules/.bin/allure.cmd open",
+        "kill-port": "npx kill-port 4444"
     }
 }

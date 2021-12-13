@@ -6,25 +6,27 @@ describe('Testing register page', () => {
     it('try register new User', async () => {
 
         //Main Page
-        mainPage.open('/');
+        await mainPage.open('/');
         mainPage.waitForScreenAvalible();
-        mainPage.navigateToLogin();
+        await mainPage.openAccountMenu();
+        await mainPage.clickLogin();
 
         //Login Page
-        loginPage.registerUser.click();
+        loginPage.waitForScreenAvalible();
+
+        await loginPage.registerUser.click();
 
         //Register Page
-        //registerPage.selectDropdown("Mother's maiden name?");
-        registerPage.registerForm('qwerty0@gmail.com', 'qwerty123', 'qwerty123', "Mother's maiden name?", 'qwerty');
-
-
+        registerPage.waitForScreenAvalible();
+        await registerPage.registerForm('qwerty1@gmail.com', 'qwerty123', 'qwerty123', "Mother's maiden name?", 'qwerty');
+       
         //Check register status
-        //await loginPage.waitUntilAvailable();
-        //await expect(await loginPage.rgstrStatusOk).toBeExisting();
-        //await expect(await loginPage.rgstrStatusOk).toHaveTextContaining('Registration completed successfully. You can now log in.');
+        loginPage.waitForScreenAvalible();
+        await expect(loginPage.rgstrStatusOk).toBeExisting();
+        await expect(loginPage.rgstrStatusOk).toHaveTextContaining('Registration completed successfully. You can now log in.');
 
         //Delay
-        await browser.pause(15000);
+        //await browser.pause(10000);
     });
 
 });

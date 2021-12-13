@@ -5,17 +5,22 @@ describe('Testing login page', () => {
     it('try login with valid credentials', async () => {
         
         //Main Page
-        mainPage.open();
-        mainPage.navigateToLogin();
+        await mainPage.open('/');
+        mainPage.waitForScreenAvalible();
+        await mainPage.openAccountMenu();
+        await mainPage.clickLogin();
         
         //Login Page
-        loginPage.login('qwerty@gmail.com', 'qwerty123');
+        loginPage.waitForScreenAvalible();
+        await loginPage.login('qwerty@gmail.com', 'qwerty123');
 
         //Check login status
-        //await expect(mainPage.checkLoginStatus()).toBeExisting();
+        mainPage.waitForScreenAvalible();
+        await mainPage.openAccountMenu();
+        await expect(mainPage.checkLoginStatus()).toBeExisting();
 
         //Delay
-        await browser.pause(10000);
+        //await browser.pause(10000);
     });
 
 });

@@ -10,7 +10,6 @@ export default class BaseElement {
     async isExisting() {
         console.log(`isExisting() ---OK! (${this.elementName})`);
         return await this.wdioElement.isExisting();
-
     }
     async isDisplayed() {
         console.log(`isDisplayed() ---OK! (${this.elementName})`);

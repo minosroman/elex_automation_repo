@@ -5,10 +5,12 @@ describe('Test for the opening social media', () => {
     it('try to open facebook page', async () => {
 
         //Main Page
-        mainPage.open();
-        mainPage.showSideMenu();
+        await mainPage.open('/');
+        mainPage.waitForScreenAvalible();
+        mainPage.openAboutUsPage();
 
         //About Page
+        aboutusPage.waitForScreenAvalible();
         await aboutusPage.goFacebook();
         await browser.switchWindow(aboutusPage.facebookUrl);
 

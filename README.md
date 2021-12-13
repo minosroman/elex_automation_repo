@@ -8,3 +8,6 @@
 > 014 - JavaScript - Webdriver.IO. Part 2
 
 > 015 - JavaScript - Webdriver.IO. Part 3
+
+> 016 - JavaScript - Allure + wdio
+

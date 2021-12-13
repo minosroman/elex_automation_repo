@@ -6,7 +6,6 @@ class MainPage extends BasePage {
     async getBaseElement() {
         return new ButtonElement($('#navbarLoginButton'), 'MainPageBase');
     }
-
     get accountMenuBtn() {
         return new ButtonElement($('#navbarAccount'), 'Navbar Account Menu');
     }
@@ -18,6 +17,9 @@ class MainPage extends BasePage {
     }
     get allowCookiesBtn() {
         return new ButtonElement($('a[aria-label="dismiss cookie message"]'), 'Button Allow Cookies');
+    }
+    get forcePageReloadBtn() {
+        return new ButtonElement($('//*[contains(text(), "Force page reload")]'), 'Button Force page reload"');
     }
     get logoutBtn() {
         return new ButtonElement($('#navbarLogoutButton'), 'Logout');
@@ -31,23 +33,32 @@ class MainPage extends BasePage {
     get aboutUsBtn() {
         return new ButtonElement($('div a[routerlink="/about"]'), 'About Us!');
     }
-
     async open() {
+        await allure.addStep('Open main page & close All Popups');
         await super.open('/');
         if (await this.closePopupBtn.isExisting()) await this.closePopupBtn.click();
         if (await this.allowCookiesBtn.isExisting()) await this.allowCookiesBtn.click();
+        if (await this.forcePageReloadBtn.isExisting()) await this.forcePageReloadBtn.click();
+        await allure.endStep('passed');
     }
     async openAccountMenu() {
+        await allure.addStep('Open the Account dropdown Menu');
         await this.accountMenuBtn.click();
+        await allure.endStep('passed');
     }
-    async navigateToLogin() {
-        await this.openAccountMenu();
+    async clickLogin() {
+        await allure.addStep('Open the Login Page');
         await this.loginBtn.click();
+        await allure.endStep('passed');
     }
-    async showSideMenu() {
+    async openAboutUsPage() {
+        await allure.addStep('Open About US Page');
         await this.sideMenuBtn.click();
         await this.aboutUsBtn.click();
+        await allure.endStep('passed');
     }
-
+    async checkLoginStatus() {
+        return this.logoutBtn;
+    }
 }
 export default new MainPage();

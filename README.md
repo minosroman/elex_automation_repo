@@ -11,3 +11,5 @@
 
 > 016 - JavaScript - Allure + wdio
 
+> 017 - API Testing
+

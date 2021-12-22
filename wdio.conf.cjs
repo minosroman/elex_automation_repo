@@ -1,9 +1,11 @@
+const allureReporter = require('@wdio/allure-reporter').default;
+
 exports.config = {
     //
     // ====================
     // Runner Configuration
     // ====================
-    //
+    //runner: 'local',
     //
     // ==================
     // Specify Test Files
@@ -20,9 +22,26 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [
-        './test/specs/**/*.js'
-    ],
+    specs: ['./test/specs/**/*.js',],
+    suites: {
+        api: [
+            './test/specs/api.registration.js',
+            './test/specs/api.login.js',
+            './test/specs/api.buy.item.js',
+        ],
+        p_ui: [
+            './test/specs/positive.register.js',
+            './test/specs/positive.login.js',
+            './test/specs/buy.item.js',
+            './test/specs/profile.update.js',
+            './test/specs/twitter.opening.js',
+            './test/specs/facebook.opening.js',
+        ],
+        n_ui: [
+            './test/specs/negative.login.js',
+            './test/specs/negative.buy.item.js',
+        ]
+    },
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -54,19 +73,24 @@ exports.config = {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
+
         maxInstances: 1,
         browserName: 'chrome',
-        acceptInsecureCerts: true
+        acceptInsecureCerts: true,
+
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
-    },
-    {
+    }, {
+    
         maxInstances: 1,
         browserName: 'firefox',
-        acceptInsecureCerts: true
-    }],
+        acceptInsecureCerts: true,
+
+    } ],
+    
+
     //
     // ===================
     // Test Configurations
@@ -98,7 +122,7 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'https://the-internet.herokuapp.com',
+    baseUrl: 'http://localhost:3000/#',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -114,7 +138,8 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver', 'firefox-profile'],
+    //services: ['chromedriver'],
+    services: ['selenium-standalone'],
     
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -136,10 +161,13 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['spec'],
+    reporters: ['spec', ['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+    }]],
 
 
-    
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
@@ -182,6 +210,7 @@ exports.config = {
      * @param {String} cid worker id (e.g. 0-0)
      */
     // beforeSession: function (config, capabilities, specs, cid) {
+
     // },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
@@ -190,8 +219,11 @@ exports.config = {
      * @param {Array.<String>} specs        List of spec file paths that are to be run
      * @param {Object}         browser      instance of created browser/device session
      */
-    // before: function (capabilities, specs) {
-    // },
+    before: function (capabilities, specs) {
+        browser.maximizeWindow();
+        global.allure = allureReporter;
+        console.error(`Testing is started... (${capabilities.browserName})`);
+    },
     /**
      * Runs before a WebdriverIO command gets executed.
      * @param {String} commandName hook command name
@@ -209,6 +241,7 @@ exports.config = {
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */
     // beforeTest: function (test, context) {
+
     // },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
@@ -232,8 +265,12 @@ exports.config = {
      * @param {Boolean} result.passed    true if test has passed, otherwise false
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-    // },
+    afterTest: async function(test, context, { error, result, duration, passed, retries }) {
+        if(!passed){
+            let screen = await browser.takeScreenshot();
+            await allureReporter.addAttachment('TestScreenshot', Buffer.from(screen, 'base64'), 'image/png');
+        }
+    },
 
     /**
      * Hook that gets executed after the suite has ended
@@ -257,8 +294,9 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    // after: function (result, capabilities, specs) {
-    // },
+    after: function (result, capabilities, specs) {
+        console.error(`Testing is done! (${capabilities.browserName})`);
+    },
 
     /**
      * Gets executed right after terminating the webdriver session.

@@ -22,12 +22,26 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [
-        './test/specs/**/api.registration.js',
-        './test/specs/**/positive.login.js'
-
-    ],
-
+    specs: ['./test/specs/**/*.js',],
+    suites: {
+        api: [
+            './test/specs/api.registration.js',
+            './test/specs/api.login.js',
+            './test/specs/api.buy.item.js',
+        ],
+        p_ui: [
+            './test/specs/positive.register.js',
+            './test/specs/positive.login.js',
+            './test/specs/buy.item.js',
+            './test/specs/profile.update.js',
+            './test/specs/twitter.opening.js',
+            './test/specs/facebook.opening.js',
+        ],
+        n_ui: [
+            './test/specs/negative.login.js',
+            './test/specs/negative.buy.item.js',
+        ]
+    },
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -68,13 +82,13 @@ exports.config = {
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
-    }, /*{
+    }, {
     
         maxInstances: 1,
         browserName: 'firefox',
         acceptInsecureCerts: true,
 
-    }*/],
+    } ],
     
 
     //
@@ -124,8 +138,8 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver'],
-    //services: ['selenium-standalone'],
+    //services: ['chromedriver'],
+    services: ['selenium-standalone'],
     
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber

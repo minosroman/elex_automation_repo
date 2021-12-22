@@ -4,7 +4,6 @@ import mainPage from '../pages/main.page.js';
 
 describe('Testing register page', () => {
     it('try register new User', async () => {
-
         //Main Page
         await mainPage.open('/');
         mainPage.waitForScreenAvalible();
@@ -18,15 +17,11 @@ describe('Testing register page', () => {
 
         //Register Page
         registerPage.waitForScreenAvalible();
-        await registerPage.registerForm('qwerty1@gmail.com', 'qwerty123', 'qwerty123', "Mother's maiden name?", 'qwerty');
-       
+        await registerPage.registerForm(`${await registerPage.genData(5)}@gmail.com`, 'qwerty123', 'qwerty123', "Mother's maiden name?", `${await registerPage.genData(5)}`);
+
         //Check register status
         loginPage.waitForScreenAvalible();
         await expect(loginPage.rgstrStatusOk).toBeExisting();
         await expect(loginPage.rgstrStatusOk).toHaveTextContaining('Registration completed successfully. You can now log in.');
-
-        //Delay
-        //await browser.pause(10000);
     });
-
 });

@@ -40,7 +40,7 @@ class AboutUsPage extends BasePage {
     get slackMarker() {
         return $('img[alt="OWASP logo"]');
     }
-    get redditBtn(){
+    get redditBtn() {
         return new ButtonElement($('//*[@class="mat-button-wrapper"][contains(text(), "Reddit")]'), 'Go Reddit');
     }
     get redditUrl() {
@@ -49,7 +49,7 @@ class AboutUsPage extends BasePage {
     get redditMarker() {
         return $('input[id="header-search-bar"]');
     }
-    get pressKitBtn(){
+    get pressKitBtn() {
         return new ButtonElement($('//*[@class="mat-button-wrapper"][contains(text(), "Press Kit")]'), 'Go PressKit');
     }
     get pressKitUrl() {

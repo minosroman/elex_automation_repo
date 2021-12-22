@@ -1,9 +1,8 @@
 import aboutusPage from '../pages/aboutus.page.js';
 import mainPage from '../pages/main.page.js';
 
-describe('Test for the opening social media', () => {
+describe('Opening social media from “About Us” page', () => {
     it('try to open facebook page', async () => {
-
         //Main Page
         await mainPage.open('/');
         mainPage.waitForScreenAvalible();
@@ -14,10 +13,8 @@ describe('Test for the opening social media', () => {
         await aboutusPage.goFacebook();
         await browser.switchWindow(aboutusPage.facebookUrl);
 
-        //Check opening Facebook status
+        //Check status
+        await aboutusPage.facebookMarker.waitForDisplayed();
         await expect(aboutusPage.facebookMarker).toBeExisting();
-
-        //Delay
-        //await browser.pause(10000);
     });
 });

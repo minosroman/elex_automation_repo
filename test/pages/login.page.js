@@ -5,7 +5,6 @@ import ButtonElement from '../elements/button.element.js';
 class LoginPage extends BasePage {
 
     async getBaseElement() {
-        //return new ButtonElement($('button#loginButton'), 'LoginPageBase');
         return new ButtonElement($('//*[contains(text(), "Registration completed successfully. You can now log in.")]'), 'LoginPageBase');
     }
     get email() {

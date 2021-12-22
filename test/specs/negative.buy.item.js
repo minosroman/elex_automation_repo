@@ -1,8 +1,8 @@
 import loginPage from '../pages/login.page.js';
 import mainPage from '../pages/main.page.js';
 
-describe('Testing login page', () => {
-    it('try login with valid credentials', async () => {
+describe('Adding items to the basket and completing purchase flow', () => {
+    it('try to buy sold item', async () => {
         //Main Page
         await mainPage.open('/');
         mainPage.waitForScreenAvalible();
@@ -13,9 +13,10 @@ describe('Testing login page', () => {
         loginPage.waitForScreenAvalible();
         await loginPage.login('qwerty@gmail.com', 'qwerty123');
 
-        //Check login status
+        //Check status
         mainPage.waitForScreenAvalible();
-        await mainPage.openAccountMenu();
-        await expect(mainPage.checkLoginStatus()).toBeExisting();
+        await mainPage.clickAddToBasketSoldItem();
+        await expect(mainPage.soldMsg).toBeExisting();
+        await expect(mainPage.soldMsg).toHaveTextContaining('We are out of stock!');
     });
 });

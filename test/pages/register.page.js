@@ -2,6 +2,7 @@ import BasePage from '../base/base.page.js';
 import InputElement from '../elements/input.element.js';
 import ButtonElement from '../elements/button.element.js';
 import DropdownElement from '../elements/dropdown.element.js';
+import randomstring from 'randomstring';
 
 class RegisterPage extends BasePage {
 
@@ -36,6 +37,9 @@ class RegisterPage extends BasePage {
         await allure.addStep('Open Register Page');
         await super.open('/register');
         await allure.endStep('passed');
+    }
+    async genData(lngth){
+        return randomstring.generate({length: lngth, charset: 'alphabetic'});
     }
     async registerForm(email, pass, rePass, dropdown, answer) {
         await allure.addStep('Fill register fields and click Register Button');

@@ -4,18 +4,12 @@ class BaseAPI {
 
     async GET(url, requestBody, token) {
         console.log('Sending GET request to url:' + url);
-        if (url && requestBody && token) {
-            return await superagent.get(url).send(requestBody).set(token);
-        } else if (url && token) {
-            return await superagent.get(url).set(token);
-        } else {
-            return await superagent.get(url);
-        }
+        return await superagent.get(url).send(requestBody).set("Authorization", `Bearer ${token}`).catch(console.error);
     }
 
     async POST(url, data, token) {
         console.log('Sending POST request to url:' + url);
-        return await superagent.post(url).send(data);
+        return await superagent.post(url).send(data).set("Authorization", `Bearer ${token}`);
     }
 
     async PUT(url) {
@@ -25,7 +19,7 @@ class BaseAPI {
 
     async DELETE(url, token) {
         console.log('Sending DELETE request to url:' + url);
-        return await superagent.delete(url).set(token);
+        return await superagent.delete(url).set("Authorization", `Bearer ${token}`);
     }
 
     async getSecurityQuestion(url) {
@@ -33,6 +27,10 @@ class BaseAPI {
         return await superagent.get(url);
     }
 
+    async getToken(response) {
+        console.log('Getting User Token');
+        return JSON.parse(await JSON.stringify(response.body.authentication.token));
+    }
 }
 
 export default new BaseAPI();
